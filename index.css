@@ -1,0 +1,43 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-forest-dark: #0A1612;
+  --color-forest-medium: #13251E;
+  --color-forest-light: #1D362C;
+  --color-cream: #EBE8E3;
+  --color-cream-muted: #A8B3AF;
+  --color-rose-gold: #E0A995;
+  --color-rose-gold-dim: #9E7465;
+}
+
+body {
+  @apply bg-[#0A1612] text-[#EBE8E3];
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glass-panel {
+  @apply bg-[#13251E]/40 backdrop-blur-md border border-[#E0A995]/20 shadow-xl;
+}
+
+.glass-card {
+  @apply bg-[#1D362C]/30 backdrop-blur-sm border border-[#E0A995]/10 hover:border-[#E0A995]/40 transition-all duration-300;
+}
+
+.text-gradient-gold {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#E0A995] to-[#D4AF37];
+}

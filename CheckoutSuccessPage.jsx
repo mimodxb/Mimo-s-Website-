@@ -34,7 +34,7 @@ const CheckoutSuccessPage = () => {
         </p>
         
         <div className="space-y-4">
-          <Link to="/mimo-collective/shop">
+          <Link to="/shop">
             <Button className="w-full bg-[#E0A995] hover:bg-[#D49A89] text-[#0A1612] font-semibold py-6">
               <ShoppingBag className="mr-2 h-5 w-5" /> Continue Shopping
             </Button>

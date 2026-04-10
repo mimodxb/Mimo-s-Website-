@@ -18,7 +18,7 @@
         "handleErrors": false
       },
       "mapper": {
-        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={{GEMINI_API_KEY}}",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key={{GEMINI_API_KEY}}",
         "method": "post",
         "headers": [
           {
@@ -28,7 +28,7 @@
         ],
         "bodyType": "raw",
         "contentType": "application/json",
-        "data": "{\"contents\":[{\"parts\":[{\"text\":\"You are an expert career strategist. Score this job 1-100 for Movsum (Mimo) Mirzazada. Profile: 6.5 years UAE retail/hospitality ops manager. Dubai-based, UAE driving license, immediate start. Target Roles: Retail Operations Manager, Sales Manager, Store Manager, Customer Care, Brand Manager, EA, Biz Dev, Ecommerce. Job Title: {{1.title}} Job Summary: {{1.summary}} Return ONLY valid JSON with keys: score (number), reason (string), variant (A, B, or C), hook (string), apply (YES/NO).\"}]}],\"generationConfig\":{\"temperature\":0.2}}"
+        "data": "{\"contents\":[{\"parts\":[{\"text\":\"You are an expert career strategist. Score this job 1-100 for Movsum (Mimo) Mirzazada. Profile: 6.5 years UAE retail/hospitality ops manager. Dubai-based, UAE driving license, immediate start. Target Roles: Retail Operations Manager, Sales Manager, Store Manager, Customer Care, Brand Manager, EA, Biz Dev, Ecommerce. Job Title: {{1.title}} Job Summary: {{1.summary}} Return ONLY a raw JSON object with keys: score (number), reason (string), variant (A, B, or C), hook (string), apply (YES/NO). Do not use markdown code fences.\"}]}],\"generationConfig\":{\"temperature\":0.2}}"
       }
     },
     {

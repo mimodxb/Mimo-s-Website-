@@ -1,0 +1,113 @@
+{
+  "name": "Mimo Job Hunter — FIXED & READY",
+  "flow": [
+    {
+      "id": 1,
+      "module": "rss:TriggerNewArticle",
+      "version": 4,
+      "parameters": {
+        "url": "https://www.google.com/alerts/feeds/03687472253009828433/12973080243431048589",
+        "maxResults": 5
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": false
+      },
+      "mapper": {
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={{GEMINI_API_KEY}}",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"contents\":[{\"parts\":[{\"text\":\"You are an expert career strategist. Score this job 1-100 for Movsum (Mimo) Mirzazada. Profile: 6.5 years UAE retail/hospitality ops manager. Dubai-based, UAE driving license, immediate start. Target Roles: Retail Operations Manager, Sales Manager, Store Manager, Customer Care, Brand Manager, EA, Biz Dev, Ecommerce. Job Title: {{1.title}} Job Summary: {{1.summary}} Return ONLY valid JSON with keys: score (number), reason (string), variant (A, B, or C), hook (string), apply (YES/NO).\"}]}],\"generationConfig\":{\"temperature\":0.2}}"
+      }
+    },
+    {
+      "id": 3,
+      "module": "json:ParseJSON",
+      "version": 1,
+      "mapper": {
+        "json": "{{2.data.candidates[0].content.parts[0].text}}"
+      },
+      "metadata": {
+        "interface": [
+          {
+            "name": "score",
+            "type": "number",
+            "label": "Score"
+          },
+          {
+            "name": "reason",
+            "type": "text",
+            "label": "Reason"
+          },
+          {
+            "name": "variant",
+            "type": "text",
+            "label": "Variant"
+          },
+          {
+            "name": "hook",
+            "type": "text",
+            "label": "Hook"
+          },
+          {
+            "name": "apply",
+            "type": "text",
+            "label": "Apply"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "spreadsheetId": "1a4FtfiXNiPrxDXpBCIPtLhSqfIP3M6lrYPKJvzZaVZc",
+        "sheetId": "Sheet1"
+      },
+      "mapper": {
+        "values": {
+          "0": "{{now}}",
+          "1": "{{1.title}}",
+          "2": "{{1.summary}}",
+          "3": "{{3.score}}",
+          "4": "{{3.apply}}",
+          "5": "{{1.url}}",
+          "6": "{{3.hook}}"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": false
+      },
+      "mapper": {
+        "url": "https://api.telegram.org/bot{{TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"chat_id\":\"{{TELEGRAM_CHAT_ID}}\",\"text\":\"🚀 *JOB MATCH:* ({{3.score}}/100)\\n\\n💼 *Role:* {{1.title}}\\n✅ *Why:* {{3.reason}}\\n🎯 *Hook:* {{3.hook}}\\n📝 *Use Variant:* {{3.variant}}\\n📌 *Apply Recommendation:* {{3.apply}}\\n\\n🔗 [View Job & Apply]({{1.url}})\",\"parse_mode\":\"Markdown\"}"
+      }
+    }
+  ]
+}
